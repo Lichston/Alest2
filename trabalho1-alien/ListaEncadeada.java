@@ -4,6 +4,7 @@ public class ListaEncadeada{
     private Nodo inicio;
     private Nodo fim;
     private int tamanho;
+    private int contFusoes;
 
         private class Nodo{
             
@@ -20,7 +21,7 @@ public class ListaEncadeada{
         }
 
     
-    public ListaEncadeada(String sDNA){
+    public ListaEncadeada(){
         this.inicio = null;
         this.fim = null;
         this.tamanho = 0;
@@ -47,21 +48,31 @@ public class ListaEncadeada{
             this.fim = novoNodo;
             tamanho++;
         }
-        else if(this.inicio == this.fim){this.fim.proximo = novoNodo; this.fim = novoNodo; this.fim.anterior = inicio;}
-
         else adicionaRecursivo(this.inicio , novoNodo);
         }        
     }
 
-    private void adicionaRecursivo(Nodo Nodo, Nodo novoNodo){
+    public void adicionaNoFim(Nodo novoNodo){       
+        this.fim.proximo = novoNodo;
+        novoNodo.anterior = this.fim;
+        this.fim = novoNodo;
+    }        
+    
 
-        
+    private void adicionaRecursivo(Nodo nodo, Nodo novoNodo){
+
+        if(nodo.equals(this.inicio)){
+            if(nodo.proximo == null){ this.fim = novoNodo; this.inicio.proximo = novoNodo; novoNodo.anterior = this.inicio;}
+            else if(nodo.proximo != null) adicionaRecursivo(nodo.proximo, novoNodo);
+        }
+        else if(nodo.equals(this.fim)){
+            nodo.proximo = novoNodo; novoNodo.anterior = nodo; this.fim = novoNodo;
+        }
+        else
+            adicionaRecursivo(nodo.proximo, novoNodo);
 
     } 
 
-    public void fusao(){        
-        if(estaVazia() == false) fusaoRecursiva(inicio);
-    }
 
     public Nodo existe(char dna){
 
@@ -80,13 +91,42 @@ public class ListaEncadeada{
 
     public void remove(char dna){
 
-        if (existe(dna) != null){
-
-        }
+        if (existe(dna) != null){removeRecursivo(this.inicio, dna);}
 
     }
 
+    public void removeRecursivo(Nodo nodo, char dna){
+
+        if(nodo.equals(this.inicio)){
+
+            if(nodo.dna == dna){
+                Nodo aux = inicio.proximo;
+                inicio = aux;
+                inicio.anterior = null;
+            }
+            else removeRecursivo(nodo.proximo, dna);
+
+        }
+
+        else if((nodo.anterior != null) && (nodo.proximo != null)){
+            if (nodo.dna == dna){ nodo.anterior = nodo.proximo; nodo.proximo = nodo.anterior; }
+            else removeRecursivo(nodo.proximo, dna);
+        }
+
+        else if (nodo.equals(this.fim)){
+            if(nodo.dna == dna){ this.fim = nodo.anterior; }
+        }
+
+    }         
+
+    
+
+    public void fusao(){        
+        if(estaVazia() == false) fusaoRecursiva(this.inicio);
+    }    
+
     private void fusaoRecursiva(Nodo nodo){
+
 
         if((nodo.proximo != null)){
             if(nodo.dna == nodo.proximo.dna) fusaoRecursiva(nodo.proximo);
@@ -96,11 +136,19 @@ public class ListaEncadeada{
                 aux.replaceAll(Character.toString(nodo.dna), "");
                 aux.replaceAll(Character.toString(nodo.proximo.dna), "");
 
-                adiciona(new Nodo(aux.charAt(0)));
+                adicionaNoFim(new Nodo(aux.charAt(0)));
+                remove(nodo.dna);
+                remove(nodo.proximo.dna);
+                contFusoes++;
+                fusaoRecursiva(this.inicio);
             }
         }
 
     }  
+
+    public int getContFusoes() {
+        return contFusoes;
+    }
 
 
     public String toString() {
@@ -117,7 +165,6 @@ public class ListaEncadeada{
 
         return sb.toString();
     }
-
-
-
 }
+
+
