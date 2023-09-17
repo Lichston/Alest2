@@ -9,11 +9,12 @@ public class ListaEncadeada{
             
             char dna;
             Nodo proximo;
-
+            Nodo anterior;
             public Nodo(char dna){
                 
                 this.dna = dna;
-
+                this.proximo = null;
+                this.anterior = null;
             }
 
         }
@@ -23,7 +24,6 @@ public class ListaEncadeada{
         this.inicio = null;
         this.fim = null;
         this.tamanho = 0;
-        adiciona(sDNA);
     }
 
     public void esvaziar(){
@@ -36,7 +36,7 @@ public class ListaEncadeada{
         return ((this.tamanho==0));
     }
 
-    private void adiciona(String sDNA){
+    public void adiciona(String sDNA){
         
         for(int i=0;i<sDNA.length();i++){
 
@@ -47,13 +47,60 @@ public class ListaEncadeada{
             this.fim = novoNodo;
             tamanho++;
         }
-        else if(this.fim.proximo == null){ fim.proximo = novoNodo; fim = novoNodo;}
-        }
+        else if(this.inicio == this.fim){this.fim.proximo = novoNodo; this.fim = novoNodo; this.fim.anterior = inicio;}
+
+        else adicionaRecursivo(this.inicio , novoNodo);
+        }        
     }
 
-    private void fusao(){
+    private void adicionaRecursivo(Nodo Nodo, Nodo novoNodo){
+
+        
+
+    } 
+
+    public void fusao(){        
+        if(estaVazia() == false) fusaoRecursiva(inicio);
+    }
+
+    public Nodo existe(char dna){
+
+        if(estaVazia()) return null;
+
+        return existeRecursivo(inicio, dna);
+
+    }
+
+    private Nodo existeRecursivo(Nodo nodo, char dna){
+
+        if(nodo.dna == dna) return nodo;
+        else return existeRecursivo(nodo.proximo, dna);
         
     }
+
+    public void remove(char dna){
+
+        if (existe(dna) != null){
+
+        }
+
+    }
+
+    private void fusaoRecursiva(Nodo nodo){
+
+        if((nodo.proximo != null)){
+            if(nodo.dna == nodo.proximo.dna) fusaoRecursiva(nodo.proximo);
+            else {
+                String aux = "DNA";
+
+                aux.replaceAll(Character.toString(nodo.dna), "");
+                aux.replaceAll(Character.toString(nodo.proximo.dna), "");
+
+                adiciona(new Nodo(aux.charAt(0)));
+            }
+        }
+
+    }  
 
 
     public String toString() {
