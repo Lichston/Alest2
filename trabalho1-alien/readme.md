@@ -1,4 +1,4 @@
-O DNA D/N/A
+# O DNA D/N/A
 Depois de analisar cuidadosamente o disco voador que caiu no meio do parque da Redenção, os cientistas chegaram a algumas conclusões sobre os seres que o ocupavam (e que fugiram em uma cápsula de resgate).
 Os cientistas descobriram que o DNA dos alienígenas é feito com 3 bases em vez das 4 bases
 do DNA terrestre. Ironicamente eles batizaram as 3 bases de D, N e A. Eles também descobriram que o DNA alienígena sofre mutações que o deterioram com o tempo: duas bases diferentes que estão uma ao lado da outra podem se fundir produzindo a terceira base e criando uma 
