@@ -7,9 +7,8 @@ cadeia de DNA um pouco menor. Isto acontece de uma forma muito organizada:
 * Em uma cadeia de DNA a fusão de bases acontece sempre na dupla de bases diferentes mais à esquerda;
 * A nova base criada com a fusão vai ser agregada ao final da cadeia de DNA.
 
-Por exemplo, a pequena cadeia DNA sofre uma deterioração em DN e acaba gerando AA. Já uma cadeia maior como DNANDANDANDANADNDDDAN acaba virando simplesmente N.Os 
-cientistas agora perguntam: dada uma cadeia de DNA, qual o tamanho e qual cadeia podem
-ser obtidos depois de todas as mutações possíveis?
+Por exemplo, a pequena cadeia DNA sofre uma deterioração em DN e acaba gerando AA. Já uma cadeia maior como DNANDANDANDANADNDDDAN acaba virando simplesmente N.
+Os cientistas agora perguntam: dada uma cadeia de DNA, qual o tamanho e qual cadeia podem ser obtidos depois de todas as mutações possíveis?
 Você deve escrever um algoritmo capaz de ler as cadeias que os cientistas colocaram em vários arquivos de teste e depois informe o tamanho da menor cadeia que pode ser obtida em  cada caso.
 
 Ao final você deve apresentar um relatório descrevendo:

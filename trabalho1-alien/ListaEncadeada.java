@@ -1,3 +1,4 @@
+import java.util.Set;
 
 public class ListaEncadeada{
 
@@ -34,7 +35,7 @@ public class ListaEncadeada{
     }
 
     public boolean estaVazia(){
-        return ((this.tamanho==0));
+        return ((this.tamanho==0 && inicio == null && fim == null));
     }
 
     public void adiciona(String sDNA){
@@ -56,65 +57,62 @@ public class ListaEncadeada{
         this.fim.proximo = novoNodo;
         novoNodo.anterior = this.fim;
         this.fim = novoNodo;
+        tamanho++;
     }        
     
 
     private void adicionaRecursivo(Nodo nodo, Nodo novoNodo){
 
         if(nodo.equals(this.inicio)){
-            if(nodo.proximo == null){ this.fim = novoNodo; this.inicio.proximo = novoNodo; novoNodo.anterior = this.inicio;}
+            if(nodo.proximo == null){ this.fim = novoNodo; this.inicio.proximo = novoNodo; novoNodo.anterior = this.inicio; tamanho++;}
             else if(nodo.proximo != null) adicionaRecursivo(nodo.proximo, novoNodo);
         }
-        else if(nodo.equals(this.fim)){
-            nodo.proximo = novoNodo; novoNodo.anterior = nodo; this.fim = novoNodo;
-        }
-        else
-            adicionaRecursivo(nodo.proximo, novoNodo);
+        else {adicionaNoFim(novoNodo);}
 
     } 
 
 
-    public Nodo existe(char dna){
+    public Nodo existe(Nodo nodo){
 
         if(estaVazia()) return null;
 
-        return existeRecursivo(inicio, dna);
+        return existeRecursivo(inicio, nodo );
 
     }
 
-    private Nodo existeRecursivo(Nodo nodo, char dna){
+    private Nodo existeRecursivo(Nodo aux, Nodo nodo){
 
-        if(nodo.dna == dna) return nodo;
-        else return existeRecursivo(nodo.proximo, dna);
+        if(nodo.equals(nodo)) return nodo;
+        else return existeRecursivo(nodo.proximo, nodo);
         
     }
 
-    public void remove(char dna){
+    public void remove(Nodo nodo){
 
-        if (existe(dna) != null){removeRecursivo(this.inicio, dna);}
+        if (existe(nodo) != null){removeRecursivo(this.inicio, nodo);}
 
     }
 
-    public void removeRecursivo(Nodo nodo, char dna){
+    public void removeRecursivo(Nodo aux, Nodo nodo){
 
-        if(nodo.equals(this.inicio)){
+        if(aux.equals(this.inicio)){
 
-            if(nodo.dna == dna){
-                Nodo aux = inicio.proximo;
-                inicio = aux;
-                inicio.anterior = null;
+            if(aux.equals(nodo)){
+                aux.proximo.anterior = null;
+                inicio = aux.proximo;
             }
-            else removeRecursivo(nodo.proximo, dna);
+            else removeRecursivo(aux.proximo, nodo );
 
         }
 
-        else if((nodo.anterior != null) && (nodo.proximo != null)){
-            if (nodo.dna == dna){ nodo.anterior = nodo.proximo; nodo.proximo = nodo.anterior; }
-            else removeRecursivo(nodo.proximo, dna);
+        else if (aux.equals(this.fim)){
+            if(aux.equals(nodo) ){ aux.anterior.proximo = null; fim = aux.anterior;  }
         }
 
-        else if (nodo.equals(this.fim)){
-            if(nodo.dna == dna){ this.fim = nodo.anterior; }
+    
+        else{
+            if (aux.equals(nodo)){ aux.anterior.proximo = aux.proximo; aux.proximo.anterior = aux.anterior; }
+            else removeRecursivo(aux.proximo, nodo);
         }
 
     }         
@@ -122,27 +120,37 @@ public class ListaEncadeada{
     
 
     public void fusao(){        
-        if(estaVazia() == false) fusaoRecursiva(this.inicio);
+        if((estaVazia() == false)) fusaoRecursiva(this.inicio);
     }    
 
     private void fusaoRecursiva(Nodo nodo){
 
 
         if((nodo.proximo != null)){
-            if(nodo.dna == nodo.proximo.dna) fusaoRecursiva(nodo.proximo);
-            else {
+            if(nodo.dna != nodo.proximo.dna) {
+                
                 String aux = "DNA";
+                
+                char c1 = nodo.dna;
+                char c2 = nodo.proximo.dna;
 
-                aux.replaceAll(Character.toString(nodo.dna), "");
-                aux.replaceAll(Character.toString(nodo.proximo.dna), "");
+
+
+                aux = aux.replace(Character.toString(c1 + c2), "");
 
                 adicionaNoFim(new Nodo(aux.charAt(0)));
-                remove(nodo.dna);
-                remove(nodo.proximo.dna);
+                remove(nodo);
+                remove(nodo.proximo);
                 contFusoes++;
                 fusaoRecursiva(this.inicio);
+
+            }
+            else {
+                fusaoRecursiva(nodo.proximo);
             }
         }
+
+        else {}
 
     }  
 
