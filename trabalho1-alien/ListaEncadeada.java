@@ -114,7 +114,7 @@ public class ListaEncadeada{
 
         Nodo nodo = this.inicio;
         
-        for(int i = 0; i<this.tamanho; i++ ){
+        while(!(tudoIgual())){
             
             if(nodo.proximo != null){
 
@@ -139,8 +139,6 @@ public class ListaEncadeada{
                     this.tamanho = this.tamanho - 2;
 
                     nodo = this.inicio;
-
-                    i = i-2;
                 }
 
                 else if(nodo.dna == nodo.proximo.dna){
@@ -151,6 +149,24 @@ public class ListaEncadeada{
     }    
 
 
+    private boolean tudoIgual(){
+        Nodo aux = this.inicio;
+        int verificador = 0;
+
+        for(int i=0; i<tamanho ; i++){
+
+            if(aux.equals(this.fim)){
+            }
+            else if(aux.dna == aux.proximo.dna){
+                verificador++;
+                aux = aux.proximo;
+            }
+        }
+
+        if(verificador >= tamanho - 1) return true;
+        return false;
+
+    }
         
 
       

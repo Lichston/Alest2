@@ -20,7 +20,8 @@ public class Main {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             
             // Loop para ler o arquivo linha por linha
-            lista.adiciona(bufferedReader.readLine());
+                lista.adiciona(bufferedReader.readLine());
+                // lista.adiciona("DNA");
 
             // Fecha o BufferedReader e o FileReader após a leitura
             bufferedReader.close();
@@ -35,13 +36,9 @@ public class Main {
     
 
         System.out.println(lista.getTamanho());
-        System.out.println(lista.toString());
-
 
         lista.fusao();
 
-
-        
         System.out.println(lista.toString());
         System.out.println(lista.getTamanho());
         System.out.println(lista.getContFusoes());
