@@ -34,11 +34,19 @@ public class Main {
         Scanner in = new Scanner(System.in);
     
 
-        // System.out.println(lista.toString());
-        // System.out.println(lista.getContFusoes());
+        System.out.println(lista.getTamanho());
+        System.out.println(lista.toString());
+
+
         lista.fusao();
+
+
         
+        System.out.println(lista.toString());
+        System.out.println(lista.getTamanho());
         System.out.println(lista.getContFusoes());
+
+
     }   
     
 }
