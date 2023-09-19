@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -7,42 +8,39 @@ public class Main {
 
     public static void main(String[] args) {
 
+        int caso = 1;
 
-        ListaEncadeada lista = new ListaEncadeada();
+        File file = new File("casos-testes");
+        File[] arquivos = file.listFiles();
 
-        String nomeArquivo = "ct_2000000.txt";
+        for(File f: arquivos){
 
-        try {
-            // Cria um FileReader para abrir o arquivo
-            FileReader fileReader = new FileReader(nomeArquivo);
+            ListaEncadeada lista = new ListaEncadeada();
+            String nomeArquivo = f.getAbsolutePath();
 
-            // Cria um BufferedReader para leitura eficiente
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            
-            // Loop para ler o arquivo linha por linha
+            try {
+
+                FileReader fileReader = new FileReader(nomeArquivo);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);               
                 lista.adiciona(bufferedReader.readLine());
-                // lista.adiciona("DNA");
+                bufferedReader.close();
+                fileReader.close();
 
-            // Fecha o BufferedReader e o FileReader após a leitura
-            bufferedReader.close();
-            fileReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            Scanner in = new Scanner(System.in);
+            System.out.println("CASO " + caso);
+            lista.fusao();
+            System.out.println(lista.toString());
+            System.out.println(lista.getContFusoes());
+            System.out.println(lista.getTempo());
+            System.out.println("-------------------------------------------------------------");
+
+            caso++;
+
         }
-
-
-        Scanner in = new Scanner(System.in);
-    
-
-        System.out.println(lista.getTamanho());
-
-        lista.fusao();
-
-        System.out.println(lista.toString());
-        System.out.println(lista.getTamanho());
-        System.out.println(lista.getContFusoes());
-
 
     }   
     

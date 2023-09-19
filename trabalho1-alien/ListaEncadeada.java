@@ -1,4 +1,3 @@
-import java.util.Set;
 
 public class ListaEncadeada{
 
@@ -6,6 +5,8 @@ public class ListaEncadeada{
     private Nodo fim;
     private int tamanho;
     private int contFusoes;
+    private long tempoMS;
+    private String tempo;
 
         private class Nodo{
             
@@ -58,7 +59,6 @@ public class ListaEncadeada{
         this.fim.proximo.anterior = this.fim;
         this.fim = novoNodo;
         this.tamanho++;
-
     }        
     
 
@@ -112,9 +112,10 @@ public class ListaEncadeada{
 
     public void fusao(){        
 
+        long tempoInicial = System.currentTimeMillis();        
         Nodo nodo = this.inicio;
         
-        while(!(tudoIgual())){
+        for(int i = 0; i<tamanho; i++){
             
             if(nodo.proximo != null){
 
@@ -145,7 +146,17 @@ public class ListaEncadeada{
                     nodo = nodo.proximo;
                 }
             }
+            
+
+
         }
+
+        if(!(tudoIgual())){fusao();}
+
+        long tempoFinal =  System.currentTimeMillis() - tempoInicial;
+        setTempoMS(this.tempoMS + tempoFinal);
+        setTempo(tempoMS + "ms");
+
     }    
 
 
@@ -191,17 +202,27 @@ public class ListaEncadeada{
         return sb.toString();
     }
 
-    public Nodo getInicio() {
-        return inicio;
-    }
-
-    public Nodo getFim() {
-        return fim;
-    }
-
     public int getTamanho() {
         return tamanho;
     }
+
+    public long getTempoMS() {
+        return tempoMS;
+    }
+
+    public String getTempo() {
+        return tempo;
+    }
+
+    public void setTempo(String tempo) {
+        this.tempo = tempo;
+    }
+
+    private void setTempoMS(long tempoMS) {
+        this.tempoMS = tempoMS;
+    }
+
+    
 }
 
 
