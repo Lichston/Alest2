@@ -47,30 +47,20 @@ public class ListaEncadeada{
         if(estaVazia() == true){
             this.inicio = novoNodo;
             this.fim = novoNodo;
-            tamanho++;
+            this.tamanho++;
         }
-        else adicionaRecursivo(this.inicio , novoNodo);
+        else adicionaNoFim(novoNodo);
         }        
     }
 
     public void adicionaNoFim(Nodo novoNodo){       
         this.fim.proximo = novoNodo;
-        novoNodo.anterior = this.fim;
+        this.fim.proximo.anterior = this.fim;
         this.fim = novoNodo;
-        tamanho++;
+        this.tamanho++;
+
     }        
     
-
-    private void adicionaRecursivo(Nodo nodo, Nodo novoNodo){
-
-        if(nodo.equals(this.inicio)){
-            if(nodo.proximo == null){ this.fim = novoNodo; this.inicio.proximo = novoNodo; novoNodo.anterior = this.inicio; tamanho++;}
-            else if(nodo.proximo != null) adicionaRecursivo(nodo.proximo, novoNodo);
-        }
-        else {adicionaNoFim(novoNodo);}
-
-    } 
-
 
     public Nodo existe(Nodo nodo){
 
@@ -93,14 +83,15 @@ public class ListaEncadeada{
 
     }
 
+    
+
     public void removeRecursivo(Nodo aux, Nodo nodo){
 
         if(aux.equals(this.inicio)){
 
             if(aux.equals(nodo)){
                 aux.proximo.anterior = null;
-                inicio = aux.proximo;
-            }
+                inicio = aux.proximo;            }
             else removeRecursivo(aux.proximo, nodo );
 
         }
@@ -111,7 +102,7 @@ public class ListaEncadeada{
 
     
         else{
-            if (aux.equals(nodo)){ aux.anterior.proximo = aux.proximo; aux.proximo.anterior = aux.anterior; }
+            if (aux.equals(nodo)){ aux.anterior.proximo = aux.proximo; aux.proximo.anterior = aux.anterior;  }
             else removeRecursivo(aux.proximo, nodo);
         }
 
@@ -120,39 +111,65 @@ public class ListaEncadeada{
     
 
     public void fusao(){        
-        if((estaVazia() == false)) fusaoRecursiva(this.inicio);
+
+        Nodo nodo = this.inicio;
+        
+        while(!(tudoIgual())){
+            
+            if(nodo.proximo != null){
+
+
+                if(nodo.dna != nodo.proximo.dna){
+
+                    String aux = "DNA";
+                
+                    char c1 = nodo.dna;
+                    char c2 = nodo.proximo.dna;
+
+
+
+                    aux = aux.replace(Character.toString(c1), "");
+                    aux = aux.replace(Character.toString(c2), "");
+
+                    adicionaNoFim(new Nodo(aux.charAt(0)));
+                    remove(nodo);
+                    remove(nodo.proximo);
+                    contFusoes++;
+
+                    this.tamanho = this.tamanho - 2;
+
+                    nodo = this.inicio;
+                }
+
+                else if(nodo.dna == nodo.proximo.dna){
+                    nodo = nodo.proximo;
+                }
+            }
+        }
     }    
 
-    private void fusaoRecursiva(Nodo nodo){
 
+    private boolean tudoIgual(){
+        Nodo aux = this.inicio;
+        int verificador = 0;
 
-        if((nodo.proximo != null)){
-            if(nodo.dna != nodo.proximo.dna) {
-                
-                String aux = "DNA";
-                
-                char c1 = nodo.dna;
-                char c2 = nodo.proximo.dna;
+        for(int i=0; i<tamanho ; i++){
 
-
-
-                aux = aux.replace(Character.toString(c1 + c2), "");
-
-                adicionaNoFim(new Nodo(aux.charAt(0)));
-                remove(nodo);
-                remove(nodo.proximo);
-                contFusoes++;
-                fusaoRecursiva(this.inicio);
-
+            if(aux.equals(this.fim)){
             }
-            else {
-                fusaoRecursiva(nodo.proximo);
+            else if(aux.dna == aux.proximo.dna){
+                verificador++;
+                aux = aux.proximo;
             }
         }
 
-        else {}
+        if(verificador >= tamanho - 1) return true;
+        return false;
 
-    }  
+    }
+        
+
+      
 
     public int getContFusoes() {
         return contFusoes;
@@ -172,6 +189,18 @@ public class ListaEncadeada{
         }
 
         return sb.toString();
+    }
+
+    public Nodo getInicio() {
+        return inicio;
+    }
+
+    public Nodo getFim() {
+        return fim;
+    }
+
+    public int getTamanho() {
+        return tamanho;
     }
 }
 
